@@ -30,9 +30,9 @@ return [
     |
     */
 
-    'logo' => '<b>Balance Control System</b>LTE',
+    'logo' => '<b>Balance Control System</b>',
 
-    'logo_mini' => '<b>Balance Control</b>LT',
+    'logo_mini' => '<b>Balance Control</b>',
 
     /*
     |--------------------------------------------------------------------------
