@@ -108,13 +108,27 @@ return [
     */
 
     'menu' => [
-        'Menu',
         [
-            'text'        => 'Pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'file',
-            'label'       => 4,
-            'label_color' => 'success',
+            'text'        => 'Dashboard',
+            'url'         => 'admin',
+            'icon'        => 'dashboard',
+        ],
+        [
+            'text'        => 'Finance',            
+            'icon'        => 'money',
+            'submenu'     => [
+                [
+                    'text'  => 'Balance',
+                    'url'   => 'admin/balance',
+                    'icon'  => 'credit-card-alt'
+                ],
+                [
+                    'text'  => 'Historic',
+                    'url'   => 'admin/historic',
+                    'icon'  => 'history'
+                ]
+                
+            ]
         ]
     ],
 
