@@ -19,12 +19,17 @@ class Historic extends Model
         ];
 
         if(!$type)
-            return $type;
+            return $types;
 
         if($this->user_id_transaction != null && $type == 'I')
             return "Received from";        
 
         return $types[$type];
+    }
+
+    public function scopeUserAuth($query)
+    {
+        return $query->where('user_id', auth()->user()->id);
     }
 
     public function getDateAttribute($value)
@@ -40,5 +45,23 @@ class Historic extends Model
     public function userTransaction()
     {
         return $this->belongsTo(User::class, 'user_id_transaction');
+    }
+    
+    public function search(Array $data, $totalPage)
+    {
+        return $this->where(function($query) use ($data){
+            if(isset($data['id']))
+                $query->where('id', $data['id']);
+
+            if(isset($data['date']))
+                $query->where('date', $data['date']);
+
+            if(isset($data['type']))
+                $query->where('type', $data['type']);
+        })
+        //->where('user_id', auth()->user()->id)
+        ->userAuth()
+        ->with(['userTransaction'])
+        ->paginate($totalPage);
     }
 }

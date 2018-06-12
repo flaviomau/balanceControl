@@ -16,6 +16,7 @@ $this->group([
     $this->post('/balance/withdraw','BalanceController@withdrawStore')->name('withdraw.store');
     $this->post('/balance/confirm-transfer','BalanceController@confirmTransfer')->name('transfer.confirm');
     $this->post('/balance/transfer','BalanceController@transferStore')->name('transfer.store');
+    $this->any('/historic-search',        'BalanceController@searchHistoric')->name('historic.search');
 });
 
 $this->get('/', 'Site\SiteController@index')->name('home');
