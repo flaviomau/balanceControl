@@ -19,6 +19,8 @@ $this->group([
     $this->any('/historic-search',        'BalanceController@searchHistoric')->name('historic.search');
 });
 
+$this->get('profile', 'Admin\UserController@profile')->name('profile')->middleware('auth');
+$this->post('profile', 'Admin\UserController@profileUpdate')->name('profile.update')->middleware('auth');
 $this->get('/', 'Site\SiteController@index')->name('home');
 
 Auth::routes();
