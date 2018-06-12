@@ -14,7 +14,9 @@
     <div class="box">
         <div class="box-header">
         <a href="{{ route('balance.deposit') }}" class="btn btn-primary"><i class="fa fa-cart-plus"></i> Deposit</a>
+        @if($amount > 0)
         <a href="{{ route('balance.withdraw') }}" class="btn btn-danger"><i class="fa fa-cart-arrow-down"></i> Withdraw</a>
+        @endif        
         </div>
         <div class="box-body">            
             <div class="col-lg-6 col-xs-6">

@@ -30,7 +30,7 @@ class Balance extends Model
             DB::commit();
             return [
                 "success" => true,
-                "message" => "Saldo atualizado com sucesso!"
+                "message" => "Deposit done!"
             ];
         }
         else
@@ -38,7 +38,49 @@ class Balance extends Model
             DB::rollback();
             return [
                 "success" => false,
-                "message" => "Erro ao atualizar o saldo!"
+                "message" => "Error doing deposit!"
+            ];
+        }
+    }
+
+    public function withdraw(float $value) : Array
+    {
+        if($value > $this->amount)
+        {
+            return [
+                "success" => false,
+                "message" => "Value higher than balance!"
+            ];
+        }
+
+        DB::beginTransaction();
+
+        $before = $this->amount ? $this->amount : 0;
+        $this->amount -= number_format($value, 2, '.', '');
+        $withdraw = $this->save();
+
+        $historic = auth()->user()->historics()->create([
+            'type'          => 'O', 
+            'amount'        => $value, 
+            'total_before'  => $before , 
+            'total_after'   => $this->amount, 
+            'date'          => date('Ymd')
+        ]);
+
+        if($withdraw && $historic)
+        {
+            DB::commit();
+            return [
+                "success" => true,
+                "message" => "Withdraw done!"
+            ];
+        }
+        else
+        {
+            DB::rollback();
+            return [
+                "success" => false,
+                "message" => "Error doing withdraw!"
             ];
         }        
     }

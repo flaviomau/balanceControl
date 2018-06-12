@@ -31,9 +31,9 @@ class BalanceController extends Controller
     public function depositStore(MoneyValidationFormRequest $request)
     {        
         $balance = auth()->user()->balance()->firstOrCreate([]);
-        //dd($balance->deposit($request->deposit_value));
+        //dd($balance->deposit($request->value));
 
-        $response = $balance->deposit($request->deposit_value);
+        $response = $balance->deposit($request->value);
 
         if($response['success'])
         {
@@ -46,4 +46,18 @@ class BalanceController extends Controller
 
     }
 
+    public function withdrawStore(MoneyValidationFormRequest $request)
+    {
+        $balance = auth()->user()->balance()->firstOrCreate([]);
+        $response = $balance->withdraw($request->value);
+
+        if($response['success'])
+        {
+            return redirect()->route('admin.balance')->with('success', $response['message']);
+        }
+        else
+        {
+            return back()->with('error', $response['message']);
+        }
+    }
 }
