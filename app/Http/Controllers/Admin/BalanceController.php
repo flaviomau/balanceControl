@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MoneyValidationFormRequest;
 use App\Models\Balance;
+use App\User;
 
 class BalanceController extends Controller
 {
@@ -26,6 +27,11 @@ class BalanceController extends Controller
     public function withdraw()
     {
         return view('admin.balance.withdraw');
+    }
+
+    public function transfer()
+    {
+        return view('admin.balance.transfer');
     }
 
     public function depositStore(MoneyValidationFormRequest $request)
@@ -59,5 +65,39 @@ class BalanceController extends Controller
         {
             return back()->with('error', $response['message']);
         }
+    }
+
+    public function transferStore(MoneyValidationFormRequest $request, User $user)
+    {
+        if(!$receiver = $user->find($request->receiver_id))
+            return redirect()
+                    ->route('balance.transfer')
+                    ->with('error', 'Receiver user not found!');
+    
+        $balance = auth()->user()->balance()->firstOrCreate([]);
+        $response = $balance->transfer($request->value, $receiver);
+
+        if($response['success'])
+        {
+            return redirect()->route('admin.balance')->with('success', $response['message']);
+        }
+        else
+        {
+            return back()->with('error', $response['message']);
+        }
+    }
+
+    public function confirmTransfer(Request $request, User $user)
+    {        
+        if(!$receiver = $user->getReceiver($request->receiver))        
+            return redirect()->back()->with('error','User to receive not found!');
+
+        if($receiver->id === auth()->user()->id)
+            return redirect()->back()->with('error','Sender and Receiver are the same!');
+
+        $balance = '$' . number_format(auth()->user()->balance->amount, 2, ',', '');
+        
+        return view('admin.balance.transfer-confirm', compact('receiver', 'balance'));
+        
     }
 }
