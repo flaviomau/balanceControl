@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Balance;
 
 class BalanceController extends Controller
 {
@@ -27,8 +28,10 @@ class BalanceController extends Controller
     }
 
     public function depositStore(Request $request)
-    {
-        dd($request->all());
+    {        
+        $balance = auth()->user()->balance()->firstOrCreate([]);
+        $balance->deposit($request->deposit_value);
+
     }
 
 }
