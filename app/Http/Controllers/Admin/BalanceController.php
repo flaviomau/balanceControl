@@ -100,4 +100,10 @@ class BalanceController extends Controller
         return view('admin.balance.transfer-confirm', compact('receiver', 'balance'));
         
     }
+
+    public function historic()
+    {
+        $historics = auth()->user()->historics()->with(['userTransaction'])->get();
+        return view('admin.balance.historics', compact('historics'));
+    }
 }

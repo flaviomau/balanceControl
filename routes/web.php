@@ -10,6 +10,7 @@ $this->group([
     $this->get('/balance/deposit',  'BalanceController@deposit')->name('balance.deposit');    
     $this->get('/balance/withdraw', 'BalanceController@withdraw')->name('balance.withdraw');
     $this->get('/balance/transfer', 'BalanceController@transfer')->name('balance.transfer');
+    $this->get('/historic',         'BalanceController@historic')->name('admin.historic');
 
     $this->post('/balance/deposit', 'BalanceController@depositStore')->name('deposit.store');
     $this->post('/balance/withdraw','BalanceController@withdrawStore')->name('withdraw.store');
