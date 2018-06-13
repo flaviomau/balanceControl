@@ -4,7 +4,9 @@
 
 @section('content')
     <h1>My Profile</h1>
-    <form action="{{ route('profile.update') }}" method="POST">
+    @include('site.includes.alerts')
+    <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+        {!! csrf_field() !!}        
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" value="{{auth()->user()->name}}" name="name" placeholder="Name" class="form-control">
