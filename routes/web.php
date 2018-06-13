@@ -12,11 +12,11 @@ $this->group([
     $this->get('/balance/transfer', 'BalanceController@transfer')->name('balance.transfer');
     $this->get('/historic',         'BalanceController@historic')->name('admin.historic');
 
-    $this->post('/balance/deposit', 'BalanceController@depositStore')->name('deposit.store');
-    $this->post('/balance/withdraw','BalanceController@withdrawStore')->name('withdraw.store');
+    $this->post('/balance/deposit',         'BalanceController@depositStore')->name('deposit.store');
+    $this->post('/balance/withdraw',        'BalanceController@withdrawStore')->name('withdraw.store');
     $this->post('/balance/confirm-transfer','BalanceController@confirmTransfer')->name('transfer.confirm');
-    $this->post('/balance/transfer','BalanceController@transferStore')->name('transfer.store');
-    $this->any('/historic-search',        'BalanceController@searchHistoric')->name('historic.search');
+    $this->post('/balance/transfer',        'BalanceController@transferStore')->name('transfer.store');
+    $this->any('/historic-search',          'BalanceController@searchHistoric')->name('historic.search');
 });
 
 $this->get('profile', 'Admin\UserController@profile')->name('profile')->middleware('auth');
